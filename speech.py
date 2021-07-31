@@ -235,7 +235,6 @@ def makbule():
 #pactl set-default-source bluez_source.1C_91_9D_2B_4B_C9.headset_head_unit mikrofon değişir
 #pactl list-sinks | grep name: hoperlör listeleme
 #pactl list sources mikrofon listeleme
-#os.popen("echo 'root:adana123' | sudo -S chpasswd <<EOF\nonur1234\nEOF")
 #os.popen("adb shell stat -c '%g' /data/data/com.instagram.android")
 #adb shell su -c tar -xf /storage/emulated/0/com.instagram.android2.tar --owner=10308 --group=10308
 
