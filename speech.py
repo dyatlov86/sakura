@@ -42,8 +42,8 @@ def itemindex():
 r = sr.Recognizer()
 #print(os.popen("adb devices").read().split("\n")[1].find("device"))
 language = 'tr'
-os.system("mkdir -p ~/.config/makbule")
-makbus=False
+os.system("mkdir -p ~/.config/sakura")
+sakurasan=False
 # Reading Microphone as source
 # listening the speech and store in audio_text variable
 #paketler=["com.whatsapp","ru.yandex.disk","com.wolfram.android.alpha","com.twitter.android","org.thunderdog.challegram","com.stremio.one","com.microsoft.office.outlook","com.tmob.AveaOIM","com.mixplorer","com.touchtype.swiftkey.beta","mega.privacy.android.app","com.pozitron.iscep","com.instagram.android","deezer.android.app","com.aurora.store","com.amazon.mShop.android.shopping","droom.sleepIfUCan","org.adaway"]
@@ -59,7 +59,7 @@ def konus(cumle):
             
 def dinle(pof):
     with sr.Microphone() as source:
-        global makbus
+        global sakurasan
         global dil
         r.adjust_for_ambient_noise(source,duration=0.5)
         print(r.energy_threshold)
@@ -89,16 +89,16 @@ def sifre(laf):
         return text.lower().replace(" ","")
     else:
         return sifre("Hatalı giriş")
-def makbule():
-    global makbus
+def sakura():
+    global sakurasan
     global dil
     text=dinle("")
     if text.find("temizle")>-1:
         text=text.split("temizle ")[1]
-    if text=="makbule" or text=="makbuş":
+    if text=="sakura":
         konus('Efendim')
-        makbus=True
-    if makbus==True:
+        sakurasan=True
+    if sakurasan==True:
             #text=text.split("temizle ")[len(text.split("temizle "))-1]
         if text=="film izleyeceğim" or text=="i will watch a movie":
             konus("İyi seyirler dilerim")
@@ -125,10 +125,10 @@ def makbule():
         if text=="mesajları aç":
             os.system("brave https://www.web.whatsapp.com")
         if text=="verileri yok et" or text=="execute order 66":
-            os.system("rm -rf ~/.config/makbule/*")
+            os.system("rm -rf ~/.config/sakura/*")
             konus("Başarıyla tamamlandı")
         if text=="dinlemeyi bırak":
-            makbus=False
+            sakurasan=False
         if text=="şifreyi değiştir":
             sif=dinle()
         if text=="i̇ngilizceye geç":
@@ -208,25 +208,25 @@ def makbule():
         if text.lower()=="sesi kulaklığa ver":
             os.popen("pactl set-default-sink bluez_sink.1C_91_9D_2B_4B_C9.a2dp_sink")
         if text.lower()=="telefonu yedekle" and os.popen("adb devices").read().split("\n")[1].find("device")>-1:
-            os.system("mkdir -p ~/.config/makbule/data/data")
-            os.system("mkdir -p ~/.config/makbule/data/user/0")
+            os.system("mkdir -p ~/.config/sakura/data/data")
+            os.system("mkdir -p ~/.config/sakura/data/user/0")
             for i in paketler:
                 path=os.popen("adb shell pm path " + i).read().split("\n")[0].replace("package:","").replace("\n","")
-                os.system("adb pull "+path +" ~/.config/makbule/"+i+".apk")
+                os.system("adb pull "+path +" ~/.config/sakura/"+i+".apk")
                 os.system("adb shell su -c tar -pcvzf /storage/emulated/0/"+i+".tar /data/data/"+i)
                 os.system("adb shell su -c tar -pcvzf /storage/emulated/0/"+i+"2.tar /data/user/0/"+i)
-                os.system("adb pull /storage/emulated/0/"+i+".tar ~/.config/makbule/data/data/")
-                os.system("adb pull /storage/emulated/0/"+i+"2.tar ~/.config/makbule/data/user/0/")
+                os.system("adb pull /storage/emulated/0/"+i+".tar ~/.config/sakura/data/data/")
+                os.system("adb pull /storage/emulated/0/"+i+"2.tar ~/.config/sakura/data/user/0/")
                 os.system("adb shell rm /storage/emulated/0/"+i+".tar")
                 os.system("adb shell rm /storage/emulated/0/"+i+"2.tar")
-            #os.system("cd ~/.config/makbule && adb pull /storage/emulated/0/WhatsApp && adb pull /storage/emulated/0/DCIM && adb pull /storage/emulated/0/Download && adb pull /storage/emulated/0/Music && adb pull /storage/emulated/0/TitaniumBackup")
+            #os.system("cd ~/.config/sakura && adb pull /storage/emulated/0/WhatsApp && adb pull /storage/emulated/0/DCIM && adb pull /storage/emulated/0/Download && adb pull /storage/emulated/0/Music && adb pull /storage/emulated/0/TitaniumBackup")
         if text.lower()=="verileri geri yükle" and os.popen("adb devices").read().split("\n")[1].find("device")>-1:
             for i in paketler:
-                os.system("cd ~/.config/makbule && adb install "+i+".apk")
+                os.system("cd ~/.config/sakura && adb install "+i+".apk")
                 time.sleep(3)
                 id=str(os.popen("adb shell stat -c '%g' /data/data/"+i).read())
                 id=id[0]+id[1]+id[2]+id[3]+id[4]
-                os.system("adb push ~/.config/makbule/data/data/"+i+".tar /storage/emulated/0/ && adb push ~/.config/makbule/data/user/0/"+i+"2.tar /storage/emulated/0/")
+                os.system("adb push ~/.config/sakura/data/data/"+i+".tar /storage/emulated/0/ && adb push ~/.config/sakura/data/user/0/"+i+"2.tar /storage/emulated/0/")
                 os.system("adb shell su -c tar -pxvzf /storage/emulated/0/"+i+".tar --owner="+str(id)+" --group="+str(id))
                 os.system("adb shell su -c tar -pxvzf /storage/emulated/0/"+i+"2.tar --owner="+str(id)+" --group="+str(id))
                 os.system("adb shell rm /storage/emulated/0/"+i+".tar")
@@ -240,5 +240,5 @@ def makbule():
 
 while True:
     time.sleep(0.1)
-    makbule()
+    sakura()
     
